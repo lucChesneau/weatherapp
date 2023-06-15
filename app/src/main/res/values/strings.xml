@@ -4,4 +4,8 @@
     <string name="city_name">New York</string>
     <string name="city_desc">Sunny</string>
     <string name="city_temp">24°C</string>
+    <string name="test">test</string>
+    <string name="favoris">Favorites</string>
+    <string name="no_internet">no internet found</string>
+    <string name="input_text">Votre message</string>
 </resources>

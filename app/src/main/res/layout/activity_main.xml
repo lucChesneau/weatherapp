@@ -8,10 +8,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="230dp"
-        android:layout_marginStart="@dimen/activity_vertical_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginEnd="@dimen/activity_vertical_margin"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:background="@color/background_orange"
         android:padding="30dp"
 
@@ -35,13 +31,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/text_view_city_name"
                 android:layout_gravity="end"
-                android:text="@string/city_name"
                 android:textFontWeight="700"
-
                 android:textColor="@color/white"
-
-                android:textSize="80px" />
+                android:textSize="@dimen/large_text_size" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -63,18 +57,56 @@
                 android:textColor="@color/white"
                 android:textFontWeight="300"
 
-                android:textSize="60dp" />
+                android:textSize="@dimen/xx_large_text_size" />
 
 
     </RelativeLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_text_city_name"
+        android:layout_centerVertical="true"
+        android:paddingHorizontal="@dimen/large_margin"
+        android:hint="@string/input_text"
+        android:padding="@dimen/large_margin"
+        android:textColor="@color/black" />
+
     <Button
         android:id="@+id/button_open_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Favoris"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:clickable="true"
 
+
+        android:layout_marginEnd="@dimen/large_margin"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:text="@string/favoris"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:clickable="true"
+        android:focusable="true" />
+
+<RelativeLayout
+    android:id="@+id/no_internet_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone"
+    android:orientation="vertical"
+    android:background="@color/cardview_dark_background"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_internet"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:padding="@dimen/large_margin"
+
+        android:textColor="@color/white"
+        android:textFontWeight="300"
+        android:textSize="@dimen/xx_large_text_size" />
         />
+</RelativeLayout>
 </RelativeLayout>

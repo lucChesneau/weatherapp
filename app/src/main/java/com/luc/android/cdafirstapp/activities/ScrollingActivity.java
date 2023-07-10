@@ -83,6 +83,7 @@ public class ScrollingActivity extends AppCompatActivity {
                 builder.setPositiveButton("OK", (dialogInterface, i) ->{
                     mCities.add(new City(editTextCity.getText().toString(), "Nuageux", "24°C", R.drawable.weather_foggy_grey));
                     mAdapter.notifyDataSetChanged();
+                    System.out.println("OK");
                 });
 
 

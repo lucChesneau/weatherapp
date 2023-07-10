@@ -1,21 +1,20 @@
-package com.luc.android.cdafirstapp;
+package com.luc.android.cdafirstapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.luc.android.cdafirstapp.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,11 +42,9 @@ public class MainActivity extends AppCompatActivity {
         myTextViewCityName = findViewById(R.id.text_view_city_name);
         myTextViewCityName.setText(R.string.city_name);
 
-        Toast.makeText(this, myTextViewCityName.getText().toString(), Toast.LENGTH_SHORT).show();
-
         Button buttonOpenActivity = findViewById(R.id.button_open_activity);
 
-        buttonOpenActivity.setOnClickListener(view -> startFavoriteActivity());
+        buttonOpenActivity.setOnClickListener(view -> startScrollingActivity());
 
         /*
         buttonOpenActivity.setOnClickListener(new View.OnClickListener() {
@@ -57,13 +54,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });*/
 
-
-
     }
 
-
-    private void startFavoriteActivity() {
-        Intent intent = new Intent(MainActivity.this, FavoriteActivity.class);
+    private void startScrollingActivity() {
+        Intent intent = new Intent(MainActivity.this, ScrollingActivity.class);
         EditText editTextCityName = findViewById(R.id.edit_text_city_name);
         intent.putExtra("data_city_name", editTextCityName.getText().toString());
         startActivity(intent);

@@ -16,6 +16,15 @@
     </style>
 
     <style name="Theme.Cdafirstapp" parent="Base.Theme.Cdafirstapp" />
-    <style name="Base.TextAppearance.AppCompat.Button"
-        ></style>
+
+    <style name="Base.TextAppearance.AppCompat.Button"></style>
+
+    <style name="Theme.Cdafirstapp.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Cdafirstapp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Cdafirstapp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

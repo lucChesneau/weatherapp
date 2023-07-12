@@ -2,6 +2,7 @@ package com.luc.android.cdafirstapp.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +15,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.luc.android.cdafirstapp.R;
 import com.luc.android.cdafirstapp.models.City;
+import com.luc.android.cdafirstapp.models.weather_api.CityRetrofit;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
 
     private Context mContext;
-    private ArrayList<City> mCities;
+    private ArrayList<CityRetrofit> mCities;
 
 
     // Constructor
-    public CityAdapter(Context context, ArrayList<City> cities){
+    public CityAdapter(Context context, ArrayList<CityRetrofit> cities){
         mContext = context;
         mCities = cities;
     }
@@ -39,9 +42,12 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CityAdapter.ViewHolder holder, int position) {
-        City city = mCities.get(position);
-        holder.mCityName.setText(city.getmName());
-        holder.mWeatherIcon.setImageResource(city.getmWeatherIcon());
+        CityRetrofit city = mCities.get(position);
+        holder.mCityName.setText(city.getName());
+        Picasso.with(mContext).load("https://openweathermap.org/img/w/" + city.getWeather().get(0).getIcon() + ".png").placeholder(R.drawable.weather_clear_night_grey).into(holder.mWeatherIcon);
+        Log.d("loglog", "onBindViewHolder: " + city.getWeather().get(0).getIcon());
+        holder.mCityDescription.setText(city.getWeather().get(0).getDescription());
+        holder.mCityTemperature.setText(city.getMain().getTemp().toString() + "°C");
         holder.mCity = city;
     }
 
@@ -55,15 +61,21 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
 
         public TextView mCityName;
 
+        public TextView mCityTemperature;
+
+        public TextView mCityDescription;
+
         public ImageView mWeatherIcon;
 
-        public City mCity;
+        public CityRetrofit mCity;
 
 
         public ViewHolder(View view) {
             super(view);
             mCityName = view.findViewById(R.id.text_view_city_name);
             mWeatherIcon = view.findViewById(R.id.image_view_city_icon);
+            mCityDescription = view.findViewById(R.id.text_view_city_desc);
+            mCityTemperature = view.findViewById(R.id.text_view_city_temp);
             view.setOnLongClickListener(this);
         }
 

@@ -17,12 +17,16 @@ import android.widget.Toast;
 
 import com.luc.android.cdafirstapp.R;
 import com.luc.android.cdafirstapp.models.City;
+import com.luc.android.cdafirstapp.models.weather_api.CityRetrofit;
+import com.luc.android.cdafirstapp.network.ApiService;
+import com.luc.android.cdafirstapp.network.RetrofitClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import retrofit2.Call;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -83,6 +87,32 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
+
+            new RetrofitClient();
+            ApiService apiService = RetrofitClient.getInstance().getApi();
+
+            Call<CityRetrofit> call = apiService.getResponse("47.39", "0.68", "01897e497239c8aff78d9b8538fb24ea", "metric", "fr");
+
+            call.enqueue(new retrofit2.Callback<CityRetrofit>() {
+                @Override
+                public void onResponse(Call<CityRetrofit> call, retrofit2.Response<CityRetrofit> response) {
+                    if (response.isSuccessful()) {
+                        CityRetrofit cityRetrofit = response.body();
+
+                        Toast.makeText(MainActivity.this, "Data received!", Toast.LENGTH_SHORT).show();
+                        Log.d("testdefou", cityRetrofit.toString());
+                    } else {
+                        Toast.makeText(MainActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<CityRetrofit> call, Throwable t) {
+                    Log.d("testdefou", "Erreur lors de l'envoi de la requête : " + t.getMessage());
+                    t.printStackTrace();
+                }
+            });
+
         }
 
 
@@ -105,8 +135,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void startScrollingActivity() {
         Intent intent = new Intent(MainActivity.this, ScrollingActivity.class);
-        EditText editTextCityName = findViewById(R.id.edit_text_city_name);
-        intent.putExtra("data_city_name", editTextCityName.getText().toString());
+        //EditText editTextCityName = findViewById(R.id.edit_text_city_name);
+        //intent.putExtra("data_city_name", editTextCityName.getText().toString());
         startActivity(intent);
     }
 

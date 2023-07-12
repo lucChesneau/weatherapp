@@ -14,21 +14,28 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.luc.android.cdafirstapp.R;
 import com.luc.android.cdafirstapp.adapters.CityAdapter;
 import com.luc.android.cdafirstapp.databinding.ActivityScrollingBinding;
 import com.luc.android.cdafirstapp.models.City;
+import com.luc.android.cdafirstapp.models.weather_api.CityRetrofit;
+import com.luc.android.cdafirstapp.network.ApiService;
+import com.luc.android.cdafirstapp.network.RetrofitClient;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
 
 public class ScrollingActivity extends AppCompatActivity {
 
     private ActivityScrollingBinding binding;
-    private ArrayList<City> mCities;
+    private ArrayList<CityRetrofit> mCities;
     private RecyclerView mRecyclerView;
 
 
@@ -36,24 +43,12 @@ public class ScrollingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mCities = new ArrayList<CityRetrofit>();
 
         binding = ActivityScrollingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         mRecyclerView = findViewById(R.id.cities_recycler_view);
-
-        mCities = new ArrayList<>();
-        City city1 = new City("Montréal", "Légères pluies", "22°C", R.drawable.weather_rainy_grey);
-        City city2 = new City("New York", "Ensoleillé", "22°C", R.drawable.weather_sunny_grey);
-        City city3 = new City("Paris", "Nuageux", "24°C", R.drawable.weather_foggy_grey);
-        City city4 = new City("Toulouse", "Pluies modérées", "20°C", R.drawable.weather_rainy_grey);
-
-        for(int i = 0; i < 0; i++) {
-            mCities.add(city1);
-            mCities.add(city2);
-            mCities.add(city3);
-            mCities.add(city4);
-        }
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -66,6 +61,11 @@ public class ScrollingActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
         toolBarLayout.setTitle(getTitle());
+
+        new RetrofitClient();
+        ApiService apiService = RetrofitClient.getInstance().getApi();
+
+
 
         FloatingActionButton fab = binding.fab;
         fab.setOnClickListener(new View.OnClickListener() {
@@ -81,8 +81,31 @@ public class ScrollingActivity extends AppCompatActivity {
 
                 builder.setNegativeButton("Annuler", (dialogInterface, i) -> dialogInterface.cancel());
                 builder.setPositiveButton("OK", (dialogInterface, i) ->{
-                    mCities.add(new City(editTextCity.getText().toString(), "Nuageux", "24°C", R.drawable.weather_foggy_grey));
-                    mAdapter.notifyDataSetChanged();
+
+                    Call<CityRetrofit> call = apiService.getResponseByCityName(editTextCity.getText().toString(), "fr", "metric","01897e497239c8aff78d9b8538fb24ea");
+
+                    call.enqueue(new retrofit2.Callback<CityRetrofit>() {
+                        @Override
+                        public void onResponse(Call<CityRetrofit> call, retrofit2.Response<CityRetrofit> response) {
+                            if (response.isSuccessful()) {
+                                CityRetrofit cityRetrofit = response.body();
+
+                                mCities.add(cityRetrofit);
+
+                                Toast.makeText(ScrollingActivity.this, "Data received!", Toast.LENGTH_SHORT).show();
+                                mAdapter.notifyDataSetChanged();
+
+                            } else {
+                                Toast.makeText(ScrollingActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<CityRetrofit> call, Throwable t) {
+                            Log.d("testdefou", "Erreur lors de l'envoi de la requête : " + t.getMessage());
+                            t.printStackTrace();
+                        }
+                    });
                 });
 
                 builder.create().show();

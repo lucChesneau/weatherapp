@@ -48,7 +48,7 @@ public class ScrollingActivity extends AppCompatActivity {
         City city3 = new City("Paris", "Nuageux", "24°C", R.drawable.weather_foggy_grey);
         City city4 = new City("Toulouse", "Pluies modérées", "20°C", R.drawable.weather_rainy_grey);
 
-        for(int i = 0; i < 1; i++) {
+        for(int i = 0; i < 0; i++) {
             mCities.add(city1);
             mCities.add(city2);
             mCities.add(city3);
@@ -84,7 +84,6 @@ public class ScrollingActivity extends AppCompatActivity {
                     mCities.add(new City(editTextCity.getText().toString(), "Nuageux", "24°C", R.drawable.weather_foggy_grey));
                     mAdapter.notifyDataSetChanged();
                 });
-
 
                 builder.create().show();
 

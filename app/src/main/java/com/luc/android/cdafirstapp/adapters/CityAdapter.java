@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.luc.android.cdafirstapp.R;
+import com.luc.android.cdafirstapp.Util;
 import com.luc.android.cdafirstapp.models.City;
 import com.luc.android.cdafirstapp.models.weather_api.CityRetrofit;
 import com.squareup.picasso.Picasso;
@@ -86,6 +87,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
             builder.setMessage("Voulez-vous vraiment supprimer cette ville ?");
             builder.setPositiveButton("Oui", (dialog, i) -> {
                 mCities.remove(mCity);
+                Util.saveFavouriteCities(this.itemView.getContext(), mCities);
                 notifyDataSetChanged();
             });
             builder.setNegativeButton("Non", (dialog, i) -> dialog.cancel());
